@@ -4,13 +4,15 @@ const queue = require('../queue/queue'); // 导入数据库模块
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.send('task home page');
+    res.status(200).json({message: 'task home page'});
 });
 
 
 router.post('/add', function (req, res, next) {
-    queue.addJobs('job1', {'data': 'data1'})
-    res.send('task home page');
+    const {name, data} = req.body; // 获取请求体中的参数
+
+    queue.addJobs(name, data)
+    res.status(200).json({message: 'Queue add ok!'});
 });
 
 // 定义POST请求的路由处理函数
