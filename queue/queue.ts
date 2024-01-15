@@ -49,7 +49,31 @@ const myQueue = new Queue('myqueue-1002', {
 
 const addJobs = async function addJobs(name: string, data: any) {
     await myQueue.add(name, data);
+}
 
+// add delay job
+const addDelayJobs = async function addDelayJobs(name: string, data: any, delay: number) {
+    await myQueue.add(name, data, {delay});
+}
+
+// add job and Remove all finalized jobs
+const addJobsAndRemove = async function addJobsAndRemove(name: string, data: any) {
+    await myQueue.add(name, data, {removeOnComplete: true});
+}
+
+// add job and Remove all failed jobs
+const addJobsAndRemoveFailed = async function addJobsAndRemoveFailed(name: string, data: any) {
+    await myQueue.add(name, data, {removeOnFail: true});
+}
+
+// add job and Keep a certain number of jobs
+const addJobsAndKeep = async function addJobsAndKeep(name: string, data: any) {
+    await myQueue.add(name, data, {removeOnComplete: 100, removeOnFail: 100});
+}
+
+// add job and Keep jobs for a certain amount of time
+const addJobsAndKeepTime = async function addJobsAndKeepTime(name: string, data: any) {
+    await myQueue.add(name, data, {removeOnComplete: 1000 * 60 * 60, removeOnFail: 1000 * 60 * 60});
 }
 
 
