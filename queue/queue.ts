@@ -76,6 +76,11 @@ const addJobsAndKeepTime = async function addJobsAndKeepTime(name: string, data:
     await myQueue.add(name, data, {removeOnComplete: 1000 * 60 * 60, removeOnFail: 1000 * 60 * 60});
 }
 
+// add repeat job
+const addRepeatJobs = async function addRepeatJobs(name: string, data: any, repeat: JobRepeatOpts) {
+    await myQueue.add(name, data, {repeat});
+}
+
 // Adding jobs in bulk
 const addJobsBulk = async function addJobsBulk(data: any) {
     await myQueue.addBulk([
