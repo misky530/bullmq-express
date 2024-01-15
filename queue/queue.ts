@@ -77,11 +77,9 @@ const addJobsAndKeepTime = async function addJobsAndKeepTime(name: string, data:
 }
 
 // Adding jobs in bulk
-const addJobsBulk = async function addJobsBulk(name: string, data: any) {
+const addJobsBulk = async function addJobsBulk(data: any) {
     await myQueue.addBulk([
-        {name: name, data: data},
-        {name: name, data: data},
-        {name: name, data: data}
+        data
     ]);
 }
 
