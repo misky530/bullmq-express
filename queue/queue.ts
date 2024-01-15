@@ -83,6 +83,19 @@ const addJobsBulk = async function addJobsBulk(data: any) {
     ]);
 }
 
+// Removing Jobs
+const removeJobs = async function removeJobs(jobId: string) {
+    const job = await myQueue.getJob(jobId);
+    if (job) {
+        await job.remove();
+    }
+}
+
+// Removes all jobs that are waiting or delayed, but not active, waiting-children, completed or failed.
+const removeJobsWaiting = async function removeJobsWaiting() {
+    await myQueue.drain();
+}
+
 
 // 导出你的工具函数
 module.exports = {addJobs};
