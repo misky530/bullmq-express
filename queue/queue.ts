@@ -76,6 +76,15 @@ const addJobsAndKeepTime = async function addJobsAndKeepTime(name: string, data:
     await myQueue.add(name, data, {removeOnComplete: 1000 * 60 * 60, removeOnFail: 1000 * 60 * 60});
 }
 
+// Adding jobs in bulk
+const addJobsBulk = async function addJobsBulk(name: string, data: any) {
+    await myQueue.addBulk([
+        {name: name, data: data},
+        {name: name, data: data},
+        {name: name, data: data}
+    ]);
+}
+
 
 // 导出你的工具函数
 module.exports = {addJobs};
