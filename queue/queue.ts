@@ -77,7 +77,8 @@ const addJobsAndKeepTime = async function addJobsAndKeepTime(name: string, data:
 }
 
 // add repeat job
-const addRepeatJobs = async function addRepeatJobs(name: string, data: any, repeat: JobRepeatOpts) {
+const addRepeatJobs = async function addRepeatJobs(name: string, data: any, pattern: string) {
+    const repeat = {pattern: pattern};
     await myQueue.add(name, data, {repeat});
 }
 
@@ -103,6 +104,6 @@ const removeJobsWaiting = async function removeJobsWaiting() {
 
 
 // 导出你的工具函数
-module.exports = {addJobs};
+module.exports = {addJobs, addRepeatJobs};
 
 //  npx tsc

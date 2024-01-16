@@ -60,6 +60,66 @@ const addJobs = function addJobs(name, data) {
         yield myQueue.add(name, data);
     });
 };
+// add delay job
+const addDelayJobs = function addDelayJobs(name, data, delay) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.add(name, data, { delay });
+    });
+};
+// add job and Remove all finalized jobs
+const addJobsAndRemove = function addJobsAndRemove(name, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.add(name, data, { removeOnComplete: true });
+    });
+};
+// add job and Remove all failed jobs
+const addJobsAndRemoveFailed = function addJobsAndRemoveFailed(name, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.add(name, data, { removeOnFail: true });
+    });
+};
+// add job and Keep a certain number of jobs
+const addJobsAndKeep = function addJobsAndKeep(name, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.add(name, data, { removeOnComplete: 100, removeOnFail: 100 });
+    });
+};
+// add job and Keep jobs for a certain amount of time
+const addJobsAndKeepTime = function addJobsAndKeepTime(name, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.add(name, data, { removeOnComplete: 1000 * 60 * 60, removeOnFail: 1000 * 60 * 60 });
+    });
+};
+// add repeat job
+const addRepeatJobs = function addRepeatJobs(name, data, pattern) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const repeat = { pattern: pattern };
+        yield myQueue.add(name, data, { repeat });
+    });
+};
+// Adding jobs in bulk
+const addJobsBulk = function addJobsBulk(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.addBulk([
+            data
+        ]);
+    });
+};
+// Removing Jobs
+const removeJobs = function removeJobs(jobId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const job = yield myQueue.getJob(jobId);
+        if (job) {
+            yield job.remove();
+        }
+    });
+};
+// Removes all jobs that are waiting or delayed, but not active, waiting-children, completed or failed.
+const removeJobsWaiting = function removeJobsWaiting() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield myQueue.drain();
+    });
+};
 // 导出你的工具函数
-module.exports = { addJobs };
+module.exports = { addJobs, addRepeatJobs };
 //  npx tsc
