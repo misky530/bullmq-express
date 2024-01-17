@@ -1,41 +1,35 @@
-// RedisClient.ts
-import Redis, {Redis as RedisClientType} from 'ioredis';
+import Redis from 'ioredis';
 
-class RedisClient {
-    private static client: RedisClientType;
+export class RedisClient {
+    private client: Redis;
 
     constructor() {
-        if (!RedisClient.client) {
-            RedisClient.client = new Redis({
-                host: '36.137.225.245', // Redis 服务器的地址
-                port: 6376,        // Redis 服务器的端口
-                password: 'mtic0756-dev', // 如果你的 Redis 服务器需要密码
-                db: 10, // 如果你想使用不同的数据库
-            });
+        this.client = new Redis({
+            host: '36.137.225.249',
+            port: 6376,
+            password: 'mtic0756-prod', // 如果设置了密码，取消注释并填入密码
+            db: 10,                           // 如果你想使用不同的数据库，取消注释并指定数据库编号
+        });
+    }
+
+    public async set(key: string, value: string, expireTime?: number): Promise<'OK' | null> {
+        if (expireTime) {
+            return this.client.set(key, value, 'EX', expireTime);
+        } else {
+            return this.client.set(key, value);
         }
     }
 
-    public static async get(key: string): Promise<string | null> {
-        return new Promise((resolve, reject) => {
-            RedisClient.client.get(key);
-        });
+    public async get(key: string): Promise<string | null> {
+        key = "dp:shadow:1397095337741856770:1401722937861611528:1450345423108579330";
+        const val = await this.client.get(key);
+        console.log('val', val);
+        return val;
     }
 
-    public static async set(key: string, value: string): Promise<'OK' | null> {
-        return new Promise((resolve, reject) => {
-            RedisClient.client.set(key, value);
-        });
-    }
+    // 你可以根据需要继续添加更多方法
 
-    public static async keys(pattern: string): Promise<string[]> {
-        return new Promise((resolve, reject) => {
-            RedisClient.client.keys(pattern,);
-        });
-    }
-
-    public static async disconnect(): Promise<void> {
-        RedisClient.client.disconnect();
+    public async disconnect(): Promise<void> {
+        await this.client.quit();
     }
 }
-
-export default RedisClient;
