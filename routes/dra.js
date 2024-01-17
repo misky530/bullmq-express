@@ -9,9 +9,9 @@ router.get('/', function (req, res, next) {
 
 router.post('/getLatestProp', async function (req, res, next) {
     const {propIds} = req.body;
-    const {propId, val} = await dra.getLatestProp(propIds);
-    console.log('getLatestProp', propId, val);
-    res.status(200).json({propId, val});
+    const propVals = await dra.getLatestProp(propIds);
+    console.log('getLatestProp:', propVals);
+    res.status(200).json(propVals);
 });
 
 

@@ -47,6 +47,24 @@ export class RedisClient {
         // return val;
     }
 
+    //get values by keys
+    public async multiGet(ids: string): Promise<{ id: string, val: string }[] | null> {
+        console.time('multiGet');
+        let result: { id: string; val: string }[] = [];
+
+
+        for (let id of ids.split(',')) {
+            const val = await this.get(id);
+            if (val) {
+                result.push({id, val});
+            }
+        }
+
+        console.timeEnd('multiGet');
+
+        return result;
+    }
+
     //get keys by pattern
     public async keys(pattern: string): Promise<string[] | null> {
         console.time('keys');

@@ -56,6 +56,21 @@ class RedisClient {
             // return val;
         });
     }
+    //get values by keys
+    multiGet(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.time('multiGet');
+            let result = [];
+            for (let id of ids.split(',')) {
+                const val = yield this.get(id);
+                if (val) {
+                    result.push({ id, val });
+                }
+            }
+            console.timeEnd('multiGet');
+            return result;
+        });
+    }
     //get keys by pattern
     keys(pattern) {
         return __awaiter(this, void 0, void 0, function* () {
