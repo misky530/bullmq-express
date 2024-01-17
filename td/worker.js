@@ -9,12 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const QueueUtil_1 = require("../utils/QueueUtil");
-const start = function (taskId) {
+const WorkerUtil_1 = require("../utils/WorkerUtil");
+const autoRemoval = function (queueName) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('start', taskId);
-        const taskUtil = new QueueUtil_1.QueueUtil();
-        return yield taskUtil.start(taskId, { name: "test" });
+        const worker = new WorkerUtil_1.WorkerUtil();
+        return yield worker.autoRemoval(queueName);
     });
 };
-module.exports = { start };
+module.exports = { autoRemoval };

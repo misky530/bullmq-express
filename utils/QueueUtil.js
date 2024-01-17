@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskUtil = void 0;
+exports.QueueUtil = void 0;
 const ParamUtil_1 = require("../utils/ParamUtil");
 const bullmq_1 = require("bullmq");
 class QueueUtil {
@@ -72,4 +72,4 @@ class QueueUtil {
         });
     }
 }
-exports.TaskUtil = QueueUtil;
+exports.QueueUtil = QueueUtil;
