@@ -7,10 +7,11 @@ router.get('/', function (req, res, next) {
     res.status(200).json({message: 'dra home page'});
 });
 
-router.post('/getLatestProp', function (req, res, next) {
-    const {propId, val} = dra.getLatestProp('id123');
+router.post('/getLatestProp', async function (req, res, next) {
+    const {propIds} = req.body;
+    const {propId, val} = await dra.getLatestProp(propIds);
     console.log('getLatestProp', propId, val);
-    res.status(200).json({message: 'getLatestProp'});
+    res.status(200).json({propId, val});
 });
 
 

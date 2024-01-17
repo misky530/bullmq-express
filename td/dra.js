@@ -13,8 +13,9 @@ const RedisClient_1 = require("../utils/RedisClient");
 const getLatestProp = function (propIds) {
     return __awaiter(this, void 0, void 0, function* () {
         const redisClient = new RedisClient_1.RedisClient();
-        const val = yield redisClient.get("dp:shadow:1392095804881248288:1392095804881248291:1410977729825873920");
-        return { propId: "1410977729825873920", val: val };
+        const val = yield redisClient.get(propIds);
+        console.log('val2', val);
+        return { propId: propIds, val: val };
     });
 };
 module.exports = { getLatestProp };
