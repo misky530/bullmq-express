@@ -7,4 +7,13 @@ const start = async function (taskId: string) {
 
 }
 
-module.exports = {start};
+const addRepeatJobs = async function (taskId: string, data: any, pattern: string) {
+    console.log('addRepeatJobs', taskId);
+    const taskUtil = new QueueUtil();
+
+    //*/1 * * * * *
+    return await taskUtil.addRepeatJobs(taskId, data, pattern);
+}
+
+
+module.exports = {start, addRepeatJobs};

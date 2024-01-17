@@ -29,15 +29,15 @@ router.post('/example', (req, res) => {
 });
 
 // add repeat jobs
-router.post('/addRepeatJob', (req, res) => {
+router.post('/addRepeatJob', async (req, res) => {
 
-    const {name, data, pattern} = req.body; // 获取请求体中的参数
+    const {taskId, data, pattern} = req.body; // 获取请求体中的参数
     console.log("pattern:" + pattern); // 获取请求体中的参数
 
-    queue.addRepeatJobs(name, data, pattern).then(r => {
+    await task.addRepeatJobs(taskId, data, pattern).then(r => {
         res.status(200).json({message: 'repeat job add ok!'});
     }).catch(e => {
-        res.status(200).json({message: 'repeat job add error!'});
+        res.status(200).json({message: 'repeat job add error!', error: e});
     });
 
 

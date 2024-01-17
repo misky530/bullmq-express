@@ -71,5 +71,18 @@ class QueueUtil {
             return null;
         });
     }
+    // add repeat job
+    addRepeatJobs(name, data, pattern) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // const repeat = {pattern: pattern};
+            console.log('name:', name);
+            const repeat = { pattern: pattern };
+            yield this.queue.add(name, data, { repeat });
+            // const job1 = await this.queue.add('red', {foo: 'bar'}, {repeat});
+            // const job2 = await this.queue.add('blue', {foo: 'baz'}, {repeat});
+            // console.log('pattern:', pattern);
+            // await this.queue.add(name, data, {repeat});
+        });
+    }
 }
 exports.QueueUtil = QueueUtil;

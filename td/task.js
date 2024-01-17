@@ -17,4 +17,12 @@ const start = function (taskId) {
         return yield taskUtil.start(taskId, { name: "test" });
     });
 };
-module.exports = { start };
+const addRepeatJobs = function (taskId, data, pattern) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('addRepeatJobs', taskId);
+        const taskUtil = new QueueUtil_1.QueueUtil();
+        //*/1 * * * * *
+        return yield taskUtil.addRepeatJobs(taskId, data, pattern);
+    });
+};
+module.exports = { start, addRepeatJobs };
