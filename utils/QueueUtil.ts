@@ -1,7 +1,7 @@
 import {ParamUtil} from "../utils/ParamUtil";
 import {Queue} from 'bullmq';
 
-export class TaskUtil {
+export class QueueUtil {
     private queue: Queue;
 
     constructor(name: string = "queue-1003") {

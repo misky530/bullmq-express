@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskUtil = void 0;
 const ParamUtil_1 = require("../utils/ParamUtil");
 const bullmq_1 = require("bullmq");
-class TaskUtil {
+class QueueUtil {
     constructor(name = "queue-1003") {
         this.queue = new bullmq_1.Queue(name, {
             connection: {
@@ -72,4 +72,4 @@ class TaskUtil {
         });
     }
 }
-exports.TaskUtil = TaskUtil;
+exports.TaskUtil = QueueUtil;
