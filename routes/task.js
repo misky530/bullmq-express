@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const queue = require('../queue/queue'); // 导入数据库模块
+const task = require('../td/task');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -8,11 +8,13 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.post('/add', function (req, res, next) {
-    const {name, data} = req.body; // 获取请求体中的参数
+router.post('/add', async function (req, res, next) {
+    const {taskId, data} = req.body; // 获取请求体中的参数
 
-    queue.addJobs(name, data)
-    res.status(200).json({message: 'Queue add ok!'});
+    const result = await task.start(taskId);
+
+    // task.addJobs(name, data)
+    res.status(200).json({message: result});
 });
 
 // 定义POST请求的路由处理函数
