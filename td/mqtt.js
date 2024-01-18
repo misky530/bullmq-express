@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const MqttUtil_1 = require("../utils/MqttUtil");
+const constants_1 = require("../common/constants");
 const publish = function (topic, message) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield MqttUtil_1.MqttUtil.publishAsync(topic, message);
@@ -20,4 +21,19 @@ const subscribe = function (topic) {
         return yield MqttUtil_1.MqttUtil.subscribeAsync(topic);
     });
 };
-module.exports = { publish, subscribe };
+const propSetVal = function (propId, val) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield publish(constants_1.TOPIC_PROP_SET, JSON.stringify({ propId, val }));
+    });
+};
+const propSetOn = function (propId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield propSetVal(propId, 1);
+    });
+};
+const propSetOff = function (propId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield propSetVal(propId, 0);
+    });
+};
+module.exports = { publish, subscribe, propSetVal, propSetOn, propSetOff };

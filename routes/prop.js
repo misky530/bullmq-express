@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prop = require('../td/prop');
-const mqtt=require('../td/mqtt');
+const mqtt = require('../td/mqtt');
 
 
 router.get('/', function (req, res, next) {
@@ -33,18 +33,32 @@ router.get('/propSetVals', function (req, res, next) {
     res.status(200).json({message: 'propGetVals'});
 });
 
-router.get('/propSetVal', function (req, res, next) {
+router.post('/propSetVal', function (req, res, next) {
     const {propId, val} = req.body;
-    mqtt.publish(propId,val);
-    res.status(200).json({message: 'propGetVals'});
+    mqtt.propSetVal(propId, val).then(r => {
+        res.status(200).json({message: 'propSetVal', data: r});
+    }).catch(e => {
+        res.status(500).json({message: 'propSetVal', error: e});
+    });
+
 });
 
-router.get('/propSetOn', function (req, res, next) {
-    res.status(200).json({message: 'propGetVals'});
+router.post('/propSetOn', function (req, res, next) {
+    const {propId} = req.body;
+    mqtt.propSetOn(propId).then(r => {
+        res.status(200).json({message: 'propSetOn', data: r});
+    }).catch(e => {
+        res.status(500).json({message: 'propSetOn', error: e});
+    });
 });
 
-router.get('/propSetOff', function (req, res, next) {
-    res.status(200).json({message: 'propGetVals'});
+router.post('/propSetOff', function (req, res, next) {
+    const {propId} = req.body;
+    mqtt.propSetOff(propId).then(r => {
+        res.status(200).json({message: 'propSetOff', data: r});
+    }).catch(e => {
+        res.status(500).json({message: 'propSetOff', error: e});
+    });
 });
 
 
