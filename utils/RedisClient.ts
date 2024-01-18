@@ -38,7 +38,7 @@ export class RedisClient {
         }
     }
 
-    public static async get(key: string): Promise<string | null> {
+    public static async  get(key: string): Promise<string | null> {
         // const key1 = "dp:shadow:1397095337741856770:1401722937861611528:1450345423108579330";
         // console.time('key1');
         // const val1 = await this.client.get(key1);
