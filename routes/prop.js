@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prop = require('../td/prop');
+const mqtt=require('../td/mqtt');
 
 
 router.get('/', function (req, res, next) {
@@ -28,10 +29,13 @@ router.get('/propGetVal', function (req, res, next) {
 });
 
 router.get('/propSetVals', function (req, res, next) {
+
     res.status(200).json({message: 'propGetVals'});
 });
 
 router.get('/propSetVal', function (req, res, next) {
+    const {propId, val} = req.body;
+    mqtt.publish(propId,val);
     res.status(200).json({message: 'propGetVals'});
 });
 

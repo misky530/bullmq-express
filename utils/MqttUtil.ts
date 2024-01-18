@@ -11,7 +11,7 @@ export class MqttUtil {
     private constructor() {
     }
 
-    public static getInstance(): MqttClient {
+    private static getInstance(): MqttClient {
         if (!MqttUtil.instance) {
             MqttUtil.instance = mqtt.connect(MqttUtil.brokerUrl);
             MqttUtil.instance.on('connect', () => {
@@ -29,12 +29,12 @@ export class MqttUtil {
         return MqttUtil.instance;
     }
 
-    public async subscribe(topic: string, qos: QoS = 0): Promise<ISubscriptionGrant[]> {
+    public static async subscribeAsync(topic: string, qos: QoS = 0): Promise<ISubscriptionGrant[]> {
         const client = MqttUtil.getInstance();
         return client.subscribeAsync(topic, {qos});
     }
 
-    public async publish(topic: string, message: string, qos: QoS = 0, retain: boolean = false): Promise<Packet | undefined> {
+    public static async publishAsync(topic: string, message: string, qos: QoS = 0, retain: boolean = false): Promise<Packet | undefined> {
         const client = MqttUtil.getInstance();
         return client.publishAsync(topic, message, {qos, retain})
     }
