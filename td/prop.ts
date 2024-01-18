@@ -1,9 +1,11 @@
+import {RedisClient} from "../utils/RedisClient";
+
 const propGetVals = async function (propIds: string) {
-    return [{propId: "123", val: 25.6}];
+    return await RedisClient.multiGet(propIds);
 }
 
-const propGetVal = async function (propIds: string) {
-    return {propId: "123", val: 25.6};
+const propGetVal = async function (propId: string) {
+    return await RedisClient.get(propId);
 }
 
 const propSetVals = async function (propVals: [{ propId: string, val: number }]) {

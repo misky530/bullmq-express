@@ -8,14 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const RedisClient_1 = require("../utils/RedisClient");
 const propGetVals = function (propIds) {
     return __awaiter(this, void 0, void 0, function* () {
-        return [{ propId: "123", val: 25.6 }];
+        return yield RedisClient_1.RedisClient.multiGet(propIds);
     });
 };
-const propGetVal = function (propIds) {
+const propGetVal = function (propId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return { propId: "123", val: 25.6 };
+        return yield RedisClient_1.RedisClient.get(propId);
     });
 };
 const propSetVals = function (propVals) {

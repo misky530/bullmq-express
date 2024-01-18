@@ -12,8 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const RedisClient_1 = require("../utils/RedisClient");
 const getLatestProp = function (propIds) {
     return __awaiter(this, void 0, void 0, function* () {
-        const redisClient = new RedisClient_1.RedisClient();
-        const val = yield redisClient.multiGet(propIds);
+        const val = yield RedisClient_1.RedisClient.multiGet(propIds);
         console.log('val2', val);
         return val;
     });
