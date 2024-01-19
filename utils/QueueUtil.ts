@@ -71,11 +71,5 @@ export class QueueUtil {
 
         await this.queue.add(name, data, {repeat});
 
-
-        // const job1 = await this.queue.add('red', {foo: 'bar'}, {repeat});
-        // const job2 = await this.queue.add('blue', {foo: 'baz'}, {repeat});
-        // console.log('pattern:', pattern);
-        // await this.queue.add(name, data, {repeat});
-
     }
 }

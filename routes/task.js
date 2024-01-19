@@ -43,4 +43,17 @@ router.post('/addRepeatJob', async (req, res) => {
 
 });
 
+// add job
+router.post('/addJob', async (req, res) => {
+
+    const {taskId, data, pattern} = req.body; // 获取请求体中的参数
+    console.log("pattern:" + pattern); // 获取请求体中的参数
+
+    await task.addJob(taskId, data, pattern).then(r => {
+        res.status(200).json({message: 'job add ok!'});
+    }).catch(e => {
+        res.status(200).json({message: 'job add error!', error: e});
+    });
+});
+
 module.exports = router;
