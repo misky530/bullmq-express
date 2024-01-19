@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const RedisClient_1 = require("../utils/RedisClient");
+const mqtt = require('./mqtt');
 const propGetVals = function (propIds) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield RedisClient_1.RedisClient.multiGet(propIds);
@@ -22,22 +23,22 @@ const propGetVal = function (propId) {
 };
 const propSetVals = function (propVals) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(propVals);
+        return yield mqtt.propSetVal();
     });
 };
-const propSetVal = function (propVals) {
+const propSetVal = function (propId, val) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(propVals);
+        return yield mqtt.propSetVal(propId, val);
     });
 };
-const propSetOn = function (propId, val = 1) {
+const propSetOn = function (propId) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(propId, val);
+        return yield mqtt.propSetOn(propId);
     });
 };
-const propSetOff = function (propId, val = 0) {
+const propSetOff = function (propId) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(propId, val);
+        return yield mqtt.propSetOff(propId);
     });
 };
 module.exports = { propGetVals, propGetVal, propSetVals, propSetVal, propSetOn, propSetOff };

@@ -56,15 +56,11 @@ class RedisClient {
             // console.log('val1', val1);
             // console.timeEnd('key1');
             const client = RedisClient.getInstance();
-            //模糊匹配
-            const keys = yield this.keys("*" + key);
+            //模糊匹配, pattern dp:shadow:1397095337741856770:1401722937861611528:*
+            const keys = yield this.keys("dp:*" + key);
             if (keys && keys.length > 0) {
-                for (let key of keys) {
-                    console.log('key', key);
-                    if (key.includes("dp")) {
-                        return client.get(key);
-                    }
-                }
+                console.log('key', keys[0]);
+                return client.get(keys[0]);
             }
             return null;
             // const val = await this.client.get(key);

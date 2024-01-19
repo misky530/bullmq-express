@@ -1,5 +1,7 @@
 import {RedisClient} from "../utils/RedisClient";
 
+const mqtt = require('./mqtt');
+
 const propGetVals = async function (propIds: string) {
     return await RedisClient.multiGet(propIds);
 }
@@ -9,19 +11,19 @@ const propGetVal = async function (propId: string) {
 }
 
 const propSetVals = async function (propVals: [{ propId: string, val: number }]) {
-    console.log(propVals);
+    return await mqtt.propSetVal()
 }
 
-const propSetVal = async function (propVals: [{ propId: string, val: number }]) {
-    console.log(propVals);
+const propSetVal = async function (propId: string, val: number) {
+    return await mqtt.propSetVal(propId, val);
 }
 
-const propSetOn = async function (propId: string, val: number = 1) {
-    console.log(propId, val);
+const propSetOn = async function (propId: string) {
+    return await mqtt.propSetOn(propId);
 }
 
-const propSetOff = async function (propId: string, val: number = 0) {
-    console.log(propId, val);
+const propSetOff = async function (propId: string) {
+    return await mqtt.propSetOff(propId);
 }
 
 

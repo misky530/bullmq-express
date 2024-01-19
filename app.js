@@ -13,6 +13,7 @@ const alarmRouter = require('./routes/alarm');
 const propRouter = require('./routes/prop');
 const workerRouter = require('./routes/worker');
 const mqttRouter = require('./routes/mqtt');
+const vmRouter = require('./routes/vm');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use('/alarm', alarmRouter);
 app.use('/prop', propRouter);
 app.use('/worker', workerRouter);
 app.use('/mqtt', mqttRouter);
+app.use('/vm', vmRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

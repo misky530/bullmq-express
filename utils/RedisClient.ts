@@ -38,7 +38,7 @@ export class RedisClient {
         }
     }
 
-    public static async  get(key: string): Promise<string | null> {
+    public static async get(key: string): Promise<string | null> {
         // const key1 = "dp:shadow:1397095337741856770:1401722937861611528:1450345423108579330";
         // console.time('key1');
         // const val1 = await this.client.get(key1);
@@ -47,18 +47,13 @@ export class RedisClient {
 
         const client = RedisClient.getInstance();
 
-        //模糊匹配
-        const keys = await this.keys("*" + key);
+        //模糊匹配, pattern dp:shadow:1397095337741856770:1401722937861611528:*
+        const keys = await this.keys("dp:*" + key);
 
 
         if (keys && keys.length > 0) {
-
-            for (let key of keys) {
-                console.log('key', key);
-                if (key.includes("dp")) {
-                    return client.get(key);
-                }
-            }
+            console.log('key', keys[0]);
+            return client.get(keys[0]);
         }
         return null;
 
