@@ -14,7 +14,7 @@ const propRouter = require('./routes/prop');
 const workerRouter = require('./routes/worker');
 const mqttRouter = require('./routes/mqtt');
 const vmRouter = require('./routes/vm');
-const a1Router = require('./routes/a1');
+const serverAdapter = require('./routes/board');
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use('/prop', propRouter);
 app.use('/worker', workerRouter);
 app.use('/mqtt', mqttRouter);
 app.use('/vm', vmRouter);
-app.use('/a1', a1Router);
+app.use('/admin/queues', serverAdapter.getRouter());
 
 
 // catch 404 and forward to error handler
