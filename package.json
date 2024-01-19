@@ -7,6 +7,8 @@
     "dev": "nodemon --watch routes/*.js --exec node ./bin/www"
   },
   "dependencies": {
+    "@bull-board/api": "^5.13.0",
+    "@bull-board/express": "^5.13.0",
     "bull-board": "^2.1.3",
     "bullmq": "^5.1.1",
     "cookie-parser": "~1.4.4",
