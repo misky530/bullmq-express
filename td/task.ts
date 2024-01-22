@@ -7,12 +7,12 @@ const start = async function (taskId: string) {
 
 }
 
-const addRepeatJobs = async function (taskId: string, data: any, pattern: string, queueName: string = 'queue-1003') {
-    console.log('addRepeatJobs', taskId);
+const addRepeatJobs = async function (name: string, data: any, pattern: string, queueName: string = 'queue-1003') {
+    console.log('addRepeatJobs', name);
     const queueUtil = QueueFactory.getInstance(queueName);
 
     //*/1 * * * * *
-    return await queueUtil.addRepeatJobs(taskId, data, pattern);
+    return await queueUtil.addRepeatJobs(name, data, pattern);
 }
 
 //remove repeat job

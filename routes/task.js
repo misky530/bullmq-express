@@ -11,10 +11,10 @@ router.get('/', function (req, res, next) {
 // add repeat jobs
 router.post('/addRepeatJob', async (req, res) => {
 
-    const {taskId, data, pattern} = req.body; // 获取请求体中的参数
+    const {name, data, pattern} = req.body; // 获取请求体中的参数
     console.log("pattern:" + pattern); // 获取请求体中的参数
 
-    await task.addRepeatJobs(taskId, data, pattern).then(r => {
+    await task.addRepeatJobs(name, data, pattern).then(r => {
         res.status(200).json({message: 'repeat job add ok!'});
     }).catch(e => {
         res.status(200).json({message: 'repeat job add error!', error: e});
