@@ -1,28 +1,39 @@
-import {QueueUtil} from "../utils/QueueUtil";
+import {QueueFactory} from "../src/utils/QueueFactory";
 
 const start = async function (taskId: string) {
-    console.log('start', taskId);
-    const taskUtil = new QueueUtil();
-    return await taskUtil.start(taskId, {name: "test"});
+    // console.log('start', taskId);
+    // const taskUtil = new QueueUtil();
+    // return await taskUtil.start(taskId, {name: "test"});
 
 }
 
-const addRepeatJobs = async function (taskId: string, data: any, pattern: string) {
+const addRepeatJobs = async function (taskId: string, data: any, pattern: string, queueName: string = 'queue-1003') {
     console.log('addRepeatJobs', taskId);
-    const taskUtil = new QueueUtil();
+    const queueUtil = QueueFactory.getInstance(queueName);
 
     //*/1 * * * * *
-    return await taskUtil.addRepeatJobs(taskId, data, pattern);
+    return await queueUtil.addRepeatJobs(taskId, data, pattern);
 }
 
 //remove repeat job
-const removeRepeatJobs = async function (taskId: string, data: any, pattern: string) {
-    console.log('removeRepeatJobs', taskId);
-    const taskUtil = new QueueUtil();
+const removeRepeatJobs = async function (taskId: string, pattern: string, queueName: string = 'queue-1003') {
+    const queueUtil = QueueFactory.getInstance(queueName);
 
     //*/1 * * * * *
-    return await taskUtil.addRepeatJobs(taskId, data, pattern);
+    return await queueUtil.removeRepeatJobs(taskId, pattern);
+}
+
+// clean job
+const cleanComAndFailed = async function (queueName: string = 'queue-1003') {
+    const queueUtil = QueueFactory.getInstance(queueName);
+    return await queueUtil.cleanComAndFailed();
+}
+
+// clean all
+const cleanAll = async function () {
+    const queueUtil = QueueFactory.getInstance('queue-1003');
+    return await queueUtil.cleanAll();
 }
 
 
-module.exports = {start, addRepeatJobs};
+module.exports = {addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll};

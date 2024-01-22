@@ -9,29 +9,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const QueueUtil_1 = require("../utils/QueueUtil");
+const QueueFactory_1 = require("../src/utils/QueueFactory");
 const start = function (taskId) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('start', taskId);
-        const taskUtil = new QueueUtil_1.QueueUtil();
-        return yield taskUtil.start(taskId, { name: "test" });
+        // console.log('start', taskId);
+        // const taskUtil = new QueueUtil();
+        // return await taskUtil.start(taskId, {name: "test"});
     });
 };
-const addRepeatJobs = function (taskId, data, pattern) {
+const addRepeatJobs = function (taskId, data, pattern, queueName = 'queue-1003') {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('addRepeatJobs', taskId);
-        const taskUtil = new QueueUtil_1.QueueUtil();
+        const queueUtil = QueueFactory_1.QueueFactory.getInstance(queueName);
         //*/1 * * * * *
-        return yield taskUtil.addRepeatJobs(taskId, data, pattern);
+        return yield queueUtil.addRepeatJobs(taskId, data, pattern);
     });
 };
 //remove repeat job
-const removeRepeatJobs = function (taskId, data, pattern) {
+const removeRepeatJobs = function (taskId, pattern, queueName = 'queue-1003') {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('removeRepeatJobs', taskId);
-        const taskUtil = new QueueUtil_1.QueueUtil();
+        const queueUtil = QueueFactory_1.QueueFactory.getInstance(queueName);
         //*/1 * * * * *
-        return yield taskUtil.addRepeatJobs(taskId, data, pattern);
+        return yield queueUtil.removeRepeatJobs(taskId, pattern);
     });
 };
-module.exports = { start, addRepeatJobs };
+// clean job
+const cleanComAndFailed = function (queueName = 'queue-1003') {
+    return __awaiter(this, void 0, void 0, function* () {
+        const queueUtil = QueueFactory_1.QueueFactory.getInstance(queueName);
+        return yield queueUtil.cleanComAndFailed();
+    });
+};
+// clean all
+const cleanAll = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const queueUtil = QueueFactory_1.QueueFactory.getInstance('queue-1003');
+        return yield queueUtil.cleanAll();
+    });
+};
+module.exports = { addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll };

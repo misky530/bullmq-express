@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QueueUtil = void 0;
-const ParamUtil_1 = require("../utils/ParamUtil");
+const ParamUtil_1 = require("../../utils/ParamUtil");
 const bullmq_1 = require("bullmq");
 class QueueUtil {
     constructor(name = "queue-1003") {
@@ -72,12 +72,45 @@ class QueueUtil {
         });
     }
     // add repeat job
-    addRepeatJobs(name, data, pattern) {
+    addRepeatJobs(name, data, pattern, limit = 10) {
         return __awaiter(this, void 0, void 0, function* () {
             // const repeat = {pattern: pattern};
             console.log('name:', name);
-            const repeat = { pattern: pattern };
+            const repeat = { pattern: pattern, limit: limit };
             yield this.queue.add(name, data, { repeat });
+        });
+    }
+    //remove repeat job
+    removeRepeatJobs(name, pattern) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const repeat = { pattern: pattern };
+            console.log('name1:', name);
+            console.log('pattern1:', pattern);
+            const repeatableJobs = yield this.queue.getRepeatableJobs();
+            for (let job of repeatableJobs) {
+                console.log('job:', job);
+            }
+            yield this.queue.removeRepeatable(name, repeat);
+        });
+    }
+    // clean
+    cleanComAndFailed() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.queue.clean(0, 0, 'completed');
+            // await this.queue.clean(0, 0, 'wait');
+            // await this.queue.clean(0, 0, 'active');
+            // await this.queue.clean(0, 0, 'delayed');
+            yield this.queue.clean(0, 0, 'failed');
+        });
+    }
+    // clean all
+    cleanAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.queue.clean(0, 0, 'completed');
+            yield this.queue.clean(0, 0, 'wait');
+            yield this.queue.clean(0, 0, 'active');
+            yield this.queue.clean(0, 0, 'delayed');
+            yield this.queue.clean(0, 0, 'failed');
         });
     }
 }

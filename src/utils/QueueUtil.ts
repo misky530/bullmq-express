@@ -1,4 +1,4 @@
-import {ParamUtil} from "../utils/ParamUtil";
+import {ParamUtil} from "../../utils/ParamUtil";
 import {Queue} from 'bullmq';
 
 export class QueueUtil {
@@ -64,12 +64,44 @@ export class QueueUtil {
     }
 
     // add repeat job
-    public async addRepeatJobs(name: string, data: any, pattern: string) {
+    public async addRepeatJobs(name: string, data: any, pattern: string, limit: number = 10) {
         // const repeat = {pattern: pattern};
         console.log('name:', name);
-        const repeat = {pattern: pattern};
+        const repeat = {pattern: pattern, limit: limit};
 
         await this.queue.add(name, data, {repeat});
 
+    }
+
+    //remove repeat job
+    public async removeRepeatJobs(name: string, pattern: string) {
+        const repeat = {pattern: pattern};
+        console.log('name1:', name);
+        console.log('pattern1:', pattern);
+
+        const repeatableJobs = await this.queue.getRepeatableJobs();
+        for (let job of repeatableJobs) {
+            console.log('job:', job);
+        }
+
+        await this.queue.removeRepeatable(name, repeat);
+    }
+
+    // clean
+    public async cleanComAndFailed() {
+        await this.queue.clean(0, 0, 'completed');
+        // await this.queue.clean(0, 0, 'wait');
+        // await this.queue.clean(0, 0, 'active');
+        // await this.queue.clean(0, 0, 'delayed');
+        await this.queue.clean(0, 0, 'failed');
+    }
+
+    // clean all
+    public async cleanAll() {
+        await this.queue.clean(0, 0, 'completed');
+        await this.queue.clean(0, 0, 'wait');
+        await this.queue.clean(0, 0, 'active');
+        await this.queue.clean(0, 0, 'delayed');
+        await this.queue.clean(0, 0, 'failed');
     }
 }
