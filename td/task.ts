@@ -15,5 +15,14 @@ const addRepeatJobs = async function (taskId: string, data: any, pattern: string
     return await taskUtil.addRepeatJobs(taskId, data, pattern);
 }
 
+//remove repeat job
+const removeRepeatJobs = async function (taskId: string, data: any, pattern: string) {
+    console.log('removeRepeatJobs', taskId);
+    const taskUtil = new QueueUtil();
+
+    //*/1 * * * * *
+    return await taskUtil.addRepeatJobs(taskId, data, pattern);
+}
+
 
 module.exports = {start, addRepeatJobs};
