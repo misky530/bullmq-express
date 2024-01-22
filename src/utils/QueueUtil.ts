@@ -104,4 +104,9 @@ export class QueueUtil {
         await this.queue.clean(0, 0, 'delayed');
         await this.queue.clean(0, 0, 'failed');
     }
+
+    // release
+    public async close(): Promise<void> {
+        await this.queue.close();
+    }
 }
