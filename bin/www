@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('mytask:server');
 var http = require('http');
+const task = require('../td/task');
+
 
 /**
  * Get port from environment and store in Express.
@@ -31,32 +33,32 @@ server.on('listening', onListening);
 
 // 优雅关闭的逻辑
 const gracefulShutdown = () => {
-  console.log('Shutting down gracefully.');
+    console.log('Shutting down gracefully.');
 
-  // 关闭服务器，不接受新的请求
-  server.close(async (err) => {
-    if (err) {
-      console.error('Error during server shutdown', err);
-      process.exit(1);
-    }
+    // 关闭服务器，不接受新的请求
+    server.close(async (err) => {
+        if (err) {
+            console.error('Error during server shutdown', err);
+            process.exit(1);
+        }
 
-    // 关闭所有其他资源，例如队列连接
-    try {
-      // await QueueUtil.close(); // 假设QueueUtil提供了一个静态方法来关闭资源
-      console.log('Queue resources released.');
-    } catch (error) {
-      console.error('Error during queue shutdown', error);
-    }
+        // 关闭所有其他资源，例如队列连接
+        try {
+            await task.release();
+            console.log('Queue resources released.');
+        } catch (error) {
+            console.error('Error during queue shutdown', error);
+        }
 
-    console.log('All resources released, shutting down...');
-    process.exit(0);
-  });
+        console.log('All resources released, shutting down...');
+        process.exit(0);
+    });
 
-  // 如果服务器在指定时间内未能关闭，则强制关闭
-  setTimeout(() => {
-    console.error('Could not close resources in time, forcefully shutting down');
-    process.exit(1);
-  }, 10000); // 10秒后强制退出
+    // 如果服务器在指定时间内未能关闭，则强制关闭
+    setTimeout(() => {
+        console.error('Could not close resources in time, forcefully shutting down');
+        process.exit(1);
+    }, 10000); // 10秒后强制退出
 };
 
 // 监听终止信号
@@ -69,19 +71,19 @@ process.on('SIGINT', gracefulShutdown);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -89,27 +91,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -117,9 +119,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }

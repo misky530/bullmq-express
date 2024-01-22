@@ -35,5 +35,10 @@ const cleanAll = async function () {
     return await queueUtil.cleanAll();
 }
 
+// release
+const release = function () {
+    QueueFactory.release();
+}
 
-module.exports = {addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll};
+
+module.exports = {addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll, release};

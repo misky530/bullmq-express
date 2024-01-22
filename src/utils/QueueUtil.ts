@@ -65,12 +65,12 @@ export class QueueUtil {
 
     // add repeat job
     public async addRepeatJobs(name: string, data: any, pattern: string, limit: number = 10) {
-        // const repeat = {pattern: pattern};
-        console.log('name:', name);
-        const repeat = {pattern: pattern, limit: limit};
-
-        await this.queue.add(name, data, {repeat});
-
+        await this.queue.add(name, data, {
+            repeat: {
+              pattern: pattern,
+            },
+            removeOnComplete: true,
+        });
     }
 
     //remove repeat job
@@ -106,7 +106,11 @@ export class QueueUtil {
     }
 
     // release
-    public async close(): Promise<void> {
-        await this.queue.close();
+    public close(): void {
+        this.queue.close().then(r => {
+            console.log('queue close ok');
+        }).catch(e => {
+            console.log('queue close error:', e);
+        });
     }
 }

@@ -17,12 +17,12 @@ const start = function (taskId) {
         // return await taskUtil.start(taskId, {name: "test"});
     });
 };
-const addRepeatJobs = function (taskId, data, pattern, queueName = 'queue-1003') {
+const addRepeatJobs = function (name, data, pattern, queueName = 'queue-1003') {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('addRepeatJobs', taskId);
+        console.log('addRepeatJobs', name);
         const queueUtil = QueueFactory_1.QueueFactory.getInstance(queueName);
         //*/1 * * * * *
-        return yield queueUtil.addRepeatJobs(taskId, data, pattern);
+        return yield queueUtil.addRepeatJobs(name, data, pattern);
     });
 };
 //remove repeat job
@@ -47,4 +47,8 @@ const cleanAll = function () {
         return yield queueUtil.cleanAll();
     });
 };
-module.exports = { addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll };
+// release
+const release = function () {
+    QueueFactory_1.QueueFactory.release();
+};
+module.exports = { addRepeatJobs, removeRepeatJobs, cleanComAndFailed, cleanAll, release };

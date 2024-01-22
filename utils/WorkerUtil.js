@@ -21,7 +21,7 @@ class WorkerUtil {
         return __awaiter(this, void 0, void 0, function* () {
             const myWorker = new bullmq_1.Worker(queueName, (job) => __awaiter(this, void 0, void 0, function* () {
                 // do some work
-                console.log('job', job);
+                console.log('job run');
             }), {
                 connection: {
                     host: "36.137.225.245",

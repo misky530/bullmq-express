@@ -12,7 +12,7 @@ export class WorkerUtil {
             queueName,
             async job => {
                 // do some work
-                console.log('job', job);
+                console.log('job run');
             },
             {
                 connection: {

@@ -16,12 +16,10 @@ export class QueueFactory {
 
     //release
     public static release(): void {
+        console.log('queue release,instances size:', this.instances.size);
         this.instances.forEach((value, key) => {
-            value.close().then(r => {
-                console.log('queue close ok,key: ', key);
-            }).catch(e => {
-                console.log('queue close error:', e);
-            });
+            console.log('queue close,key: ', key);
+            value.close();
         });
     }
 }
