@@ -14,7 +14,7 @@ const propRouter = require('./routes/prop');
 const workerRouter = require('./routes/worker');
 const mqttRouter = require('./routes/mqtt');
 const vmRouter = require('./routes/vm');
-const serverAdapter = require('./routes/board');
+const serverAdapter = require('./src/bull-dashboard/board');
 
 const app = express();
 
