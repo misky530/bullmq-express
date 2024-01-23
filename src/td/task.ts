@@ -4,8 +4,8 @@ import {RepeatableJob} from "bullmq/dist/esm/interfaces";
 
 
 export class Task {
-    public static async addRepeatJobs(queueName: string = Constants.Queue.DEFAULT
-        , name: string, data: any, cron: string): Promise<any> {
+    public static async addRepeatJobs(name: string, data: any, cron: string
+        , queueName: string = Constants.Queue.DEFAULT): Promise<any> {
         const queue = QueueFactory.getInstance(queueName);
         return await queue.addRepeatJobs(name, data, cron);
     }
@@ -14,6 +14,25 @@ export class Task {
     public static async getRepeatJobs(queueName: string = Constants.Queue.DEFAULT): Promise<RepeatableJob[]> {
         const queue = QueueFactory.getInstance(queueName);
         return await queue.getRepeatJobs();
+    }
+
+    // remove repeat job
+    public static async removeRepeatJobs(name: string, cron: string
+        , queueName: string = Constants.Queue.DEFAULT): Promise<any> {
+        const queue = QueueFactory.getInstance(queueName);
+        return await queue.removeRepeatJobs(name, cron);
+    }
+
+    // clean all
+    public static async cleanAll(queueName: string = Constants.Queue.DEFAULT): Promise<any> {
+        const queue = QueueFactory.getInstance(queueName);
+        return await queue.cleanAll();
+    }
+
+    // clean completed
+    public static async cleanCompleted(queueName: string = Constants.Queue.DEFAULT): Promise<any> {
+        const queue = QueueFactory.getInstance(queueName);
+        return await queue.cleanCompleted();
     }
 
 

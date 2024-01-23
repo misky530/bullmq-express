@@ -41,8 +41,9 @@ export class InitializeApp {
 
         if (!jobExists) {
             console.log('system housekeeper repeat job is not exist!');
-            await Task.addRepeatJobs(Constants.Queue.SYSTEM
-                , Constants.Queue.SYSTEM_HOUSEKEEPER, {}, Constants.Queue.SYSTEM_CRON);
+            await Task.addRepeatJobs(Constants.Queue.SYSTEM_HOUSEKEEPER, {}
+                , Constants.Queue.SYSTEM_CRON
+                , Constants.Queue.SYSTEM);
         } else {
             console.log('system housekeeper repeat job is exist!');
         }

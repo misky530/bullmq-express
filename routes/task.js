@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const task = require('../td/task');
+const {Task} = require('../src/td/task');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -14,7 +14,7 @@ router.post('/addRepeatJob', async (req, res) => {
     const {name, data, pattern} = req.body; // 获取请求体中的参数
     console.log("pattern:" + pattern); // 获取请求体中的参数
 
-    await task.addRepeatJobs(name, data, pattern).then(r => {
+    await Task.addRepeatJobs(name, data, pattern).then(r => {
         res.status(200).json({message: 'repeat job add ok!'});
     }).catch(e => {
         res.status(200).json({message: 'repeat job add error!', error: e});
@@ -26,7 +26,7 @@ router.post('/removeRepeatJob', (req, res) => {
     const {name, pattern} = req.body; // 获取请求体中的参数
     console.log("pattern:" + pattern); // 获取请求体中的参数
     console.log("name:" + name); // 获取请求体中的参数
-    task.removeRepeatJobs(name, pattern).then(r => {
+    Task.removeRepeatJobs(name, pattern).then(r => {
         res.status(200).json({message: 'repeat job remove ok!'});
     }).catch(e => {
         res.status(200).json({message: 'repeat job remove error!', error: e});
@@ -34,8 +34,8 @@ router.post('/removeRepeatJob', (req, res) => {
 });
 
 // clean
-router.post('/cleanComAndFailed', (req, res) => {
-    task.cleanComAndFailed().then(r => {
+router.post('/cleanCompleted', (req, res) => {
+    Task.cleanCompleted().then(r => {
         res.status(200).json({message: 'cleanComAndFailed ok!'});
     }).catch(e => {
         res.status(200).json({message: 'cleanComAndFailed error!', error: e});
@@ -44,7 +44,7 @@ router.post('/cleanComAndFailed', (req, res) => {
 
 //clean all
 router.post('/cleanAll', (req, res) => {
-    task.cleanAll().then(r => {
+    Task.cleanAll().then(r => {
         res.status(200).json({message: 'clean all ok!'});
     }).catch(e => {
         res.status(200).json({message: 'clean all error!', error: e});

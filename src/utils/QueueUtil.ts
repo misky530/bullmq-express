@@ -93,7 +93,7 @@ export class QueueUtil {
     }
 
     // clean
-    public async cleanComAndFailed() {
+    public async cleanCompleted() {
         await this.queue.clean(0, 0, 'completed');
         // await this.queue.clean(0, 0, 'wait');
         // await this.queue.clean(0, 0, 'active');
