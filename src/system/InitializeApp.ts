@@ -61,7 +61,18 @@ export class InitializeApp {
         createWorker(Constants.Queue.DEFAULT, async job => {
             // 处理 job
             console.log('default worker:', job.data);
+
+            await job.updateProgress(42);
+
+            await this.delay(1000);
+
+            await job.updateProgress(100);
+
         });
+    }
+
+    private static delay(ms: number): Promise<void> {
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 }
 
