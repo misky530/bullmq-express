@@ -1,5 +1,6 @@
 import {ParamUtil} from "../../utils/ParamUtil";
 import {Queue} from 'bullmq';
+import {RepeatableJob} from "bullmq/dist/esm/interfaces";
 
 export class QueueUtil {
     private queue: Queue;
@@ -84,6 +85,11 @@ export class QueueUtil {
         }
 
         await this.queue.removeRepeatable(name, repeat);
+    }
+
+    //get all repeat jobs
+    public async getRepeatJobs(): Promise<RepeatableJob[]> {
+        return await this.queue.getRepeatableJobs();
     }
 
     // clean
