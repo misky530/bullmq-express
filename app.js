@@ -35,7 +35,7 @@ app.use('/dra', draRouter);
 app.use('/dha', dhaRouter);
 app.use('/alarm', alarmRouter);
 app.use('/prop', propRouter);
-app.use('/worker', workerRouter);
+// app.use('/worker', workerRouter);
 app.use('/mqtt', mqttRouter);
 app.use('/vm', vmRouter);
 app.use('/admin/queues', serverAdapter.getRouter());

@@ -72,13 +72,12 @@ class QueueUtil {
         });
     }
     // add repeat job
-    addRepeatJobs(name, data, pattern, limit = 10) {
+    addRepeatJobs(name, data, pattern) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.queue.add(name, data, {
                 repeat: {
                     pattern: pattern,
-                },
-                removeOnComplete: true,
+                }
             });
         });
     }

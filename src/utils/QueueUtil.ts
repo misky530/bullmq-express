@@ -64,12 +64,11 @@ export class QueueUtil {
     }
 
     // add repeat job
-    public async addRepeatJobs(name: string, data: any, pattern: string, limit: number = 10) {
+    public async addRepeatJobs(name: string, data: any, pattern: string) {
         await this.queue.add(name, data, {
             repeat: {
-              pattern: pattern,
-            },
-            removeOnComplete: true,
+                pattern: pattern,
+            }
         });
     }
 
