@@ -51,9 +51,16 @@ export class InitializeApp {
 
     // create system worker
     private static async createSystemWorker(): Promise<void> {
+        //system worker
         createWorker(Constants.Queue.SYSTEM, async job => {
             // 处理 job
             console.log('system worker:', job.data);
+        });
+
+        //default worker
+        createWorker(Constants.Queue.DEFAULT, async job => {
+            // 处理 job
+            console.log('default worker:', job.data);
         });
     }
 }
