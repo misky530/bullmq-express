@@ -74,10 +74,12 @@ class QueueUtil {
     // add repeat job
     addRepeatJobs(name, data, pattern, limit = 10) {
         return __awaiter(this, void 0, void 0, function* () {
-            // const repeat = {pattern: pattern};
-            console.log('name:', name);
-            const repeat = { pattern: pattern, limit: limit };
-            yield this.queue.add(name, data, { repeat });
+            yield this.queue.add(name, data, {
+                repeat: {
+                    pattern: pattern,
+                },
+                removeOnComplete: true,
+            });
         });
     }
     //remove repeat job
@@ -111,6 +113,14 @@ class QueueUtil {
             yield this.queue.clean(0, 0, 'active');
             yield this.queue.clean(0, 0, 'delayed');
             yield this.queue.clean(0, 0, 'failed');
+        });
+    }
+    // release
+    close() {
+        this.queue.close().then(r => {
+            console.log('queue close ok');
+        }).catch(e => {
+            console.log('queue close error:', e);
         });
     }
 }

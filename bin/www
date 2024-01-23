@@ -8,6 +8,10 @@ var app = require('../app');
 var debug = require('debug')('mytask:server');
 var http = require('http');
 const task = require('../td/task');
+// const initApp =require('../src/system/InitializeApp')
+
+// import { InitializeApp } from '../src/system/InitializeApp';
+const {InitializeApp} = require('../src/system/InitializeApp');
 
 
 /**
@@ -23,13 +27,23 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+InitializeApp.initialize().then(() => {
+    console.log('InitializeApp.initialize() success.');
+
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+
+}).catch((err) => {
+    console.log('InitializeApp.initialize() failed.');
+    console.log(err);
+    process.exit(1);
+});
+
 
 // 优雅关闭的逻辑
 const gracefulShutdown = () => {
