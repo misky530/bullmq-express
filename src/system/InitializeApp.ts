@@ -65,10 +65,15 @@ export class InitializeApp {
             if (this.pausedJobs.has(job.name)) {
                 // 如果作业被标记为暂停，则重新放入队列
                 await job.log('job paused by user!');
-                return;
+
+                await job.updateProgress(0);
+
+                await job.updateProgress({error: 'job paused by user!'});
+
+                return {error: 'job paused by user!'};
             }
 
-            console.log('this.pausedJobs:', this.pausedJobs, 'job.id:', job.name);
+            console.log('this.pausedJobs:', this.pausedJobs, 'job.token:', job.token);
 
             await job.updateProgress(this.getRandomInt(0, 100));
 
