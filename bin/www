@@ -7,10 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('mytask:server');
 var http = require('http');
-// const initApp =require('../src/system/InitializeApp')
 
-// import { InitializeApp } from '../src/system/InitializeApp';
 const {InitializeApp} = require('../src/system/InitializeApp');
+const {RedisClient} = require('../src/utils/RedisClient');
 
 
 /**
@@ -48,30 +47,52 @@ InitializeApp.initialize().then(() => {
 const gracefulShutdown = () => {
     console.log('Shutting down gracefully.');
 
-    // 关闭服务器，不接受新的请求
-    server.close(async (err) => {
-        if (err) {
-            console.error('Error during server shutdown', err);
-            process.exit(1);
-        }
+    // 关闭所有其他资源，例如队列连接
+    try {
+        RedisClient.disconnect().then(r => {
+                console.log('redis connection released!')
+            }
+        ).catch(e => {
+                console.log('redis release failed,e:', e)
+            }
+        )
 
-        // 关闭所有其他资源，例如队列连接
-        try {
-            await task.release();
-            console.log('Queue resources released.');
-        } catch (error) {
-            console.error('Error during queue shutdown', error);
-        }
+    } catch (error) {
+        console.error('Error during queue shutdown', error);
+    }
 
-        console.log('All resources released, shutting down...');
-        process.exit(0);
-    });
-
-    // 如果服务器在指定时间内未能关闭，则强制关闭
-    setTimeout(() => {
-        console.error('Could not close resources in time, forcefully shutting down');
-        process.exit(1);
-    }, 10000); // 10秒后强制退出
+    // // 关闭服务器，不接受新的请求
+    // server.close(async (err) => {
+    //     console.log('server close...');
+    //
+    //     if (err) {
+    //         console.error('Error during server shutdown', err);
+    //         process.exit(1);
+    //     }
+    //
+    //     // 关闭所有其他资源，例如队列连接
+    //     try {
+    //         await RedisClient.disconnect().then(r => {
+    //                 console.log('redis connection released!')
+    //             }
+    //         ).catch(e => {
+    //                 console.log('redis release failed,e:', e)
+    //             }
+    //         )
+    //
+    //     } catch (error) {
+    //         console.error('Error during queue shutdown', error);
+    //     }
+    //
+    //     console.log('All resources released, shutting down...');
+    //     process.exit(0);
+    // });
+    //
+    // // 如果服务器在指定时间内未能关闭，则强制关闭
+    // setTimeout(() => {
+    //     console.error('Could not close resources in time, forcefully shutting down');
+    //     process.exit(1);
+    // }, 10000); // 10秒后强制退出
 };
 
 // 监听终止信号

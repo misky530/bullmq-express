@@ -111,8 +111,17 @@ export class RedisClient {
     }
 
     // disconnect
-    public async disconnect(): Promise<void> {
+    public static async disconnect(): Promise<void> {
+        //release redis client
         const client = RedisClient.getInstance();
         await client.quit();
+
+        //release sub client
+        const subClient = RedisClient.getSubClient();
+        await subClient.quit();
+
+        //release pub client
+        const pubClient = RedisClient.getPubClient();
+        await pubClient.quit();
     }
 }
