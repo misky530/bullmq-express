@@ -1,6 +1,7 @@
 import {QueueFactory} from "../utils/QueueFactory";
 import {Constants} from '../config/Constans';
 import {RepeatableJob} from "bullmq/dist/esm/interfaces";
+import {RedisClient} from "../utils/RedisClient";
 
 
 export class Task {
@@ -33,6 +34,16 @@ export class Task {
     public static async cleanCompleted(queueName: string = Constants.Queue.DEFAULT): Promise<any> {
         const queue = QueueFactory.getInstance(queueName);
         return await queue.cleanCompleted();
+    }
+
+    // pause job
+    public static async pauseJob(taskId: string): Promise<any> {
+        return await RedisClient.pauseJob(taskId);
+    }
+
+    // resume job
+    public static async resumeJob(taskId: string): Promise<any> {
+        return await RedisClient.resumeJob(taskId);
     }
 
 

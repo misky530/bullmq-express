@@ -51,5 +51,26 @@ router.post('/cleanAll', (req, res) => {
     });
 });
 
+// pause job
+router.post('/pauseJob', (req, res) => {
+    const {name} = req.body; // 获取请求体中的参数
+    console.log("name:" + name);
+    Task.pauseJob(name).then(r => {
+        res.status(200).json({message: 'pause job ok!'});
+    }).catch(e => {
+        res.status(200).json({message: 'pause job error!', error: e});
+    });
+});
+
+// resume job
+router.post('/resumeJob', (req, res) => {
+    const {name} = req.body; // 获取请求体中的参数
+    Task.resumeJob(name).then(r => {
+        res.status(200).json({message: 'resume job ok!'});
+    }).catch(e => {
+        res.status(200).json({message: 'resume job error!', error: e});
+    });
+});
+
 
 module.exports = router;

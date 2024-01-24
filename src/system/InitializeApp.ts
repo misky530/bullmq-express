@@ -62,11 +62,13 @@ export class InitializeApp {
             // 处理 job
             console.log('default worker:', job.data);
 
-            if (this.pausedJobs.has(job.id)) {
+            if (this.pausedJobs.has(job.name)) {
                 // 如果作业被标记为暂停，则重新放入队列
                 await job.log('job paused by user!');
                 return;
             }
+
+            console.log('this.pausedJobs:', this.pausedJobs, 'job.id:', job.name);
 
             await job.updateProgress(this.getRandomInt(0, 100));
 

@@ -12,6 +12,16 @@ export class RedisClient {
         return RedisClient.instance;
     }
 
+    // get subscribe client
+    static getSubClient(): Redis {
+        return new Redis(Constants.Redis.IOREDIS_CONFIG);
+    }
+
+    // get publish client
+    static getPubClient(): Redis {
+        return new Redis(Constants.Redis.IOREDIS_CONFIG);
+    }
+
     public static async set(key: string, value: string, expireTime?: number): Promise<'OK' | null> {
         const client = RedisClient.getInstance();
         if (expireTime) {
@@ -67,7 +77,8 @@ export class RedisClient {
 
     // subscribe
     public static async subscribe(callback: (channel: string, message: string) => void, ...channels: string[]): Promise<void> {
-        const client = RedisClient.getInstance();
+        // subscribe should create new redis instance
+        const client = this.getSubClient();
         await client.subscribe(...channels);
 
         // 当收到消息时，调用提供的回调函数
@@ -82,8 +93,11 @@ export class RedisClient {
 
     // publish
     public static async publish(channel: string, message: string): Promise<void> {
-        const client = RedisClient.getInstance();
-        await client.publish(channel, message);
+        const client = this.getPubClient();
+        console.log('publish channel:', channel);
+        console.log('publish message:', message);
+        const result = client.publish(channel, message);
+        console.log('publish result:', result);
     }
 
     // pause job
