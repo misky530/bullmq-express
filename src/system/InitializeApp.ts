@@ -1,9 +1,12 @@
 // initial business
-import {Task} from "../td/task";
 import {Constants} from '../config/Constans';
 import {createWorker} from '../utils/WorkerUtil';
+import {RedisClient} from "../utils/RedisClient";
 
 export class InitializeApp {
+    // 创建一个 Set 来存储暂停的作业 ID
+    private static pausedJobs = new Set();
+
     public static async initialize(): Promise<void> {
         // 你的初始化逻辑
         await this.initializeApplication();
@@ -22,8 +25,32 @@ export class InitializeApp {
     }
 
 
-    // create system worker
+//
+// // 订阅暂停和恢复事件
+//     sub.subscribe('pauseJob', 'resumeJob');
+//
+//     sub.on('message', (channel, message) => {
+//     if (channel === 'pauseJob') {
+//     pausedJobs.add(message);
+// } else if (channel === 'resumeJob') {
+//     pausedJobs.delete(message);
+// }
+// });
+
+
+// create system worker
     private static async createSystemWorker(): Promise<void> {
+        // create sub/pub
+        await RedisClient.subscribe((channel, message) => {
+            // callback when receive message
+            if (channel === 'pauseJob') {
+                this.pausedJobs.add(message);
+            } else if (channel === 'resumeJob') {
+                this.pausedJobs.delete(message);
+            }
+        }, Constants.Redis.PAUSE_JOB_CHANNEL, Constants.Redis.RESUME_JOB_CHANNEL);
+
+
         //system worker
         createWorker(Constants.Queue.SYSTEM, async job => {
             // 处理 job
@@ -34,6 +61,12 @@ export class InitializeApp {
         createWorker(Constants.Queue.DEFAULT, async job => {
             // 处理 job
             console.log('default worker:', job.data);
+
+            if (this.pausedJobs.has(job.id)) {
+                // 如果作业被标记为暂停，则重新放入队列
+                await job.log('job paused by user!');
+                return;
+            }
 
             await job.updateProgress(this.getRandomInt(0, 100));
 

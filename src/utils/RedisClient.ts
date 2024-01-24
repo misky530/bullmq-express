@@ -66,13 +66,15 @@ export class RedisClient {
     }
 
     // subscribe
-    public static async subscribe(channel: string, callback: (channel: string, message: string) => void): Promise<void> {
+    public static async subscribe(callback: (channel: string, message: string) => void, ...channels: string[]): Promise<void> {
         const client = RedisClient.getInstance();
-        await client.subscribe(channel);
+        await client.subscribe(...channels);
 
         // 当收到消息时，调用提供的回调函数
         client.on('message', (subscribedChannel, message) => {
-            if (subscribedChannel === channel) {
+            // 所有的订阅频道都会收到消息
+            console.log('subscribedChannel', subscribedChannel);
+            if (channels.some(channel => channel === subscribedChannel)) {
                 callback(subscribedChannel, message);
             }
         });
@@ -82,6 +84,16 @@ export class RedisClient {
     public static async publish(channel: string, message: string): Promise<void> {
         const client = RedisClient.getInstance();
         await client.publish(channel, message);
+    }
+
+    // pause job
+    public static async pauseJob(jobId: string): Promise<void> {
+        await RedisClient.publish(Constants.Redis.PAUSE_JOB_CHANNEL, jobId);
+    }
+
+    // resume job
+    public static async resumeJob(jobId: string): Promise<void> {
+        await RedisClient.publish(Constants.Redis.RESUME_JOB_CHANNEL, jobId);
     }
 
     // disconnect

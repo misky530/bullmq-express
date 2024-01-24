@@ -35,6 +35,11 @@ export namespace Constants {
             password: password,
             db: db
         }
+
+        export const PAUSE_JOB_CHANNEL: string = 'pauseJob';
+
+        export const RESUME_JOB_CHANNEL: string = 'resumeJob';
+
     }
 
 
