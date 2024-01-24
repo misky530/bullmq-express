@@ -1,31 +1,14 @@
 import Redis from 'ioredis';
+import {Constants} from '../config/Constans';
 
 export class RedisClient {
     private static instance: Redis;
 
-    // constructor() {
-    //     this.client = new Redis({
-    //         host: '36.137.225.249',
-    //         port: 6376,
-    //         password: 'mtic0756-prod', // 如果设置了密码，取消注释并填入密码
-    //         db: 10,                           // 如果你想使用不同的数据库，取消注释并指定数据库编号
-    //     });
-    // }
-
-
-    // 私有构造函数防止直接实例化
-    private constructor() {
-    }
-
     static getInstance(): Redis {
         if (!RedisClient.instance) {
-            RedisClient.instance = new Redis({
-                host: '36.137.225.249',
-                port: 6376,
-                password: 'mtic0756-prod', // 如果设置了密码，取消注释并填入密码
-                db: 10,                           // 如果你想使用不同的数据库，取消注释并指定数据库编号
-            });
+            RedisClient.instance = new Redis(Constants.Redis.IOREDIS_CONFIG);
         }
+
         return RedisClient.instance;
     }
 
@@ -39,11 +22,6 @@ export class RedisClient {
     }
 
     public static async get(key: string): Promise<string | null> {
-        // const key1 = "dp:shadow:1397095337741856770:1401722937861611528:1450345423108579330";
-        // console.time('key1');
-        // const val1 = await this.client.get(key1);
-        // console.log('val1', val1);
-        // console.timeEnd('key1');
 
         const client = RedisClient.getInstance();
 
@@ -57,9 +35,6 @@ export class RedisClient {
         }
         return null;
 
-        // const val = await this.client.get(key);
-        // console.log('val', val);
-        // return val;
     }
 
     //get values by keys
@@ -90,8 +65,26 @@ export class RedisClient {
         return keys;
     }
 
-    // 你可以根据需要继续添加更多方法
+    // subscribe
+    public static async subscribe(channel: string, callback: (channel: string, message: string) => void): Promise<void> {
+        const client = RedisClient.getInstance();
+        await client.subscribe(channel);
 
+        // 当收到消息时，调用提供的回调函数
+        client.on('message', (subscribedChannel, message) => {
+            if (subscribedChannel === channel) {
+                callback(subscribedChannel, message);
+            }
+        });
+    }
+
+    // publish
+    public static async publish(channel: string, message: string): Promise<void> {
+        const client = RedisClient.getInstance();
+        await client.publish(channel, message);
+    }
+
+    // disconnect
     public async disconnect(): Promise<void> {
         const client = RedisClient.getInstance();
         await client.quit();

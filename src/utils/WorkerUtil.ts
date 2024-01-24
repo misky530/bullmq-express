@@ -5,7 +5,7 @@ import {Constants} from '../config/Constans';
 // 创建一个函数来创建并返回一个Worker
 export function createWorker(queueName: string, processor: Processor) {
     const worker = new Worker(queueName, processor, {
-        connection: Constants.Redis.CONFIG,
+        connection: Constants.Redis.QUEUE_CONFIG,
         removeOnComplete: {count: 50},
         removeOnFail: {count: 100}
     });

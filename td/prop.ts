@@ -1,4 +1,4 @@
-import {RedisClient} from "../utils/RedisClient";
+import {RedisClient} from "../src/utils/RedisClient";
 
 const mqtt = require('./mqtt');
 

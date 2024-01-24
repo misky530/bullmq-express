@@ -1,5 +1,5 @@
 import {ParamUtil} from "../../utils/ParamUtil";
-import {Queue} from 'bullmq';
+import {Job, Queue} from 'bullmq';
 import {RepeatableJob} from "bullmq/dist/esm/interfaces";
 
 export class QueueUtil {
@@ -118,4 +118,14 @@ export class QueueUtil {
             console.log('queue close error:', e);
         });
     }
+
+    // get job
+    public async getJob(jobId: string): Promise<Job<any, any, string> | undefined> {
+        return await this.queue.getJob(jobId);
+    }
+
+    // //suspend job
+    // public async suspendJob(jobId: string): Promise<'OK' | null> {
+    //
+    // }
 }
