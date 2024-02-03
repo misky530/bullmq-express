@@ -22,5 +22,4 @@ const propSetOff = async function (propId: string) {
 
 }
 
-
 module.exports = {publish, subscribe, propSetVal, propSetOn, propSetOff};

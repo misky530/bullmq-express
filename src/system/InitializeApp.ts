@@ -60,7 +60,7 @@ export class InitializeApp {
         //default worker
         createWorker(Constants.Queue.DEFAULT, async job => {
             // 处理 job
-            console.log('default worker:', job.data);
+            // console.log('default worker:', job.data);
 
             if (this.pausedJobs.has(job.name)) {
                 // 如果作业被标记为暂停，则重新放入队列
@@ -73,7 +73,7 @@ export class InitializeApp {
                 return {error: 'job paused by user!'};
             }
 
-            console.log('this.pausedJobs:', this.pausedJobs, 'job.token:', job.token);
+            // console.log('this.pausedJobs:', this.pausedJobs, 'job.token:', job.token);
 
             await job.updateProgress(this.getRandomInt(0, 100));
 

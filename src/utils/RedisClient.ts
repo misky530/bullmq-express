@@ -36,8 +36,9 @@ export class RedisClient {
         const client = RedisClient.getInstance();
 
         //模糊匹配, pattern dp:shadow:1397095337741856770:1401722937861611528:*
-        const keys = await this.keys("dp:*" + key);
-
+        const pattern = "dp:*" + key;
+        console.log('pattern:', pattern);
+        const keys = await this.keys(pattern);
 
         if (keys && keys.length > 0) {
             console.log('key', keys[0]);
@@ -49,30 +50,27 @@ export class RedisClient {
 
     //get values by keys
     public static async multiGet(ids: string): Promise<{ id: string, val: string }[] | null> {
-        console.time('multiGet');
+        // console.time('multiGet');
         let result: { id: string; val: string }[] = [];
 
 
         for (let id of ids.split(',')) {
+            console.log("id:", id);
             const val = await this.get(id);
             if (val) {
                 result.push({id, val});
             }
         }
 
-        console.timeEnd('multiGet');
+        // console.timeEnd('multiGet');
 
         return result;
     }
 
     //get keys by pattern
     public static async keys(pattern: string): Promise<string[] | null> {
-        console.time('keys');
         const client = RedisClient.getInstance();
-        const keys = await client.keys(pattern);
-        console.log('keys', keys);
-        console.timeEnd('keys');
-        return keys;
+        return client.keys(pattern);
     }
 
     // subscribe

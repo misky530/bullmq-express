@@ -124,8 +124,14 @@ export class QueueUtil {
         return await this.queue.getJob(jobId);
     }
 
-    // //suspend job
-    // public async suspendJob(jobId: string): Promise<'OK' | null> {
-    //
-    // }
+    // get job status
+    public async getJobStatus(jobId: string): Promise<string | null> {
+        const job = await this.queue.getJob(jobId);
+        if (job) {
+            return job.getState();
+        }
+        return null;
+    }
+
+
 }
