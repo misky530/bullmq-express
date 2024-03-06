@@ -42,7 +42,7 @@ export class RedisClient {
 
         if (keys && keys.length > 0) {
             console.log('key', keys[0]);
-            return client.get(keys[0]);
+            return  client.get(keys[0]);
         }
         return null;
 
@@ -58,7 +58,9 @@ export class RedisClient {
             console.log("id:", id);
             const val = await this.get(id);
             if (val) {
-                result.push({id, val});
+                //todo 保留两位小数, float
+                const float_val=parseFloat(val).toFixed(2);
+                result.push({id,  val});
             }
         }
 

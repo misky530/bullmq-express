@@ -72,5 +72,15 @@ router.post('/resumeJob', (req, res) => {
     });
 });
 
+// get job status
+router.post('/getJobStatus', (req, res) => {
+    const {name} = req.body; // 获取请求体中的参数
+    Task.getTaskStatus(name).then(r => {
+        res.status(200).json({message: 'get job status ok!', data: r});
+    }).catch(e => {
+        res.status(200).json({message: 'get job status error!', error: e});
+    });
+});
+
 
 module.exports = router;
