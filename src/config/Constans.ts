@@ -42,5 +42,8 @@ export namespace Constants {
 
     }
 
+    export namespace Request {
+        export const API_LOG_URL: string = "http://192.168.0.206:7150/api/v1/mtim-service-base/sys/syslog"
+    }
 
 }
