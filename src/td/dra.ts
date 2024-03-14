@@ -1,4 +1,4 @@
-import {RedisClient} from "../src/utils/RedisClient";
+import {RedisClient} from "../utils/RedisClient";
 
 const getLatestProp = async function (propIds: string) {
 

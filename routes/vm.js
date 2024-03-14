@@ -9,11 +9,36 @@ router.get('/', function (req, res, next) {
 
 
 router.post('/execute', function (req, res, next) {
-    vm.evalScript(req.body.script).then(r => {
-        res.status(200).json({message: 'publish', data: r});
-    }).catch(e => {
-        res.status(500).json({message: 'publish', error: e});
-    });
+    const resp = vm.evalScript(req.body.script);
+    console.log('resp:', resp);
+
+    if (resp instanceof Promise) {
+        resp.then(r => {
+            console.log('eval script:', r);
+            res.status(200).json({message: 'eval completed', data: r});
+        }).catch(e => {
+            res.status(500).json({message: 'eval error', error: e});
+        });
+    } else {
+        res.status(200).json({message: 'eval completed', data: resp});
+    }
+
+
+    // resp.then(r => {
+    //     console.log('eval script:', r);
+    //     res.status(200).json({message: 'eval completed', data: r});
+    // }).catch(e => {
+    //     res.status(500).json({message: 'eval error', error: e});
+    // });
+    // console.log('eval script:', ok);
+    // res.status(200).json({message: 'publish', data: ok});
+
+    // vm.evalScript(req.body.script).then(r => {
+    //     console.log('eval script:', r);
+    //     res.status(200).json({message: 'eval completed', data: r});
+    // }).catch(e => {
+    //     res.status(500).json({message: 'eval error', error: e});
+    // });
 
 });
 

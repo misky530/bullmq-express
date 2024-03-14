@@ -1,4 +1,4 @@
-const dra = require('../td/dra');
+const dra = require('..src/td/dra');
 
 const express = require('express');
 const router = express.Router();

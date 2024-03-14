@@ -1,5 +1,5 @@
 import {MqttUtil} from "../utils/MqttUtil";
-import {TOPIC_PROP_SET} from "../common/constants";
+import {TOPIC_PROP_SET} from "../../common/constants";
 
 const publish = async function (topic: string, message: string) {
     return await MqttUtil.publishAsync(topic, message);

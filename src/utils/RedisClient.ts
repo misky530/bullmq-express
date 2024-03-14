@@ -60,7 +60,7 @@ export class RedisClient {
             if (val) {
                 //todo 保留两位小数, float
                 const float_val=parseFloat(val).toFixed(2);
-                result.push({id,  val});
+                result.push({id, val});
             }
         }
 

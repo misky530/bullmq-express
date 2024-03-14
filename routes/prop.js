@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const prop = require('../td/prop');
-const mqtt = require('../td/mqtt');
+const prop = require('../src/td/prop');
+const mqtt = require('../src/td/mqtt');
 
 
 router.get('/', function (req, res, next) {
