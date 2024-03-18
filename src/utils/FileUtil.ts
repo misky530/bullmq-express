@@ -9,7 +9,7 @@ export class FileUtil {
                     return;
                 }
 
-                const fileContent: string = data.toString();
+                const fileContent: string = decodeURIComponent(data.toString());
                 resolve(fileContent);
             })
         );
