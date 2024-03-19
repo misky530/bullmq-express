@@ -47,9 +47,9 @@ export class Task {
     }
 
     // get task status
-    public static async getTaskStatus(taskId: string, queueName: string = Constants.Queue.DEFAULT): Promise<any> {
+    public static async getTaskStatus(jobName: string, queueName: string = Constants.Queue.DEFAULT): Promise<any> {
         const queue = QueueFactory.getInstance(queueName);
-        return await queue.getJobStatus(taskId);
+        return await queue.getJobStatus(jobName);
     }
 
 

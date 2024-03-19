@@ -125,8 +125,8 @@ export class QueueUtil {
     }
 
     // get job status
-    public async getJobStatus(jobId: string): Promise<string | null> {
-        const job = await this.queue.getJob(jobId);
+    public async getJobStatus(jobName: string): Promise<string | null> {
+        const job = await this.queue.getJob(jobName);
         if (job) {
             // The potential states of a job in BullMQ are:
             // completed, failed, delayed, active, waiting, paused, or stuck.

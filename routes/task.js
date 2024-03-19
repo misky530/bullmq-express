@@ -73,12 +73,21 @@ router.post('/resumeJob', (req, res) => {
 });
 
 // get job status
-router.post('/getJobStatus', (req, res) => {
-    const {name} = req.body; // 获取请求体中的参数
-    Task.getTaskStatus(name).then(r => {
+router.get('/getJobStatus', (req, res) => {
+    const {jobName} = req.body; // 获取请求体中的参数
+    Task.getTaskStatus(jobName).then(r => {
         res.status(200).json({message: 'get job status ok!', data: r});
     }).catch(e => {
         res.status(200).json({message: 'get job status error!', error: e});
+    });
+});
+
+// get repeat jobs
+router.get('/getRepeatJobs', (req, res) => {
+    Task.getRepeatJobs().then(r => {
+        res.status(200).json({message: 'get repeat Jobs ok!', data: r});
+    }).catch(e => {
+        res.status(200).json({message: 'get repeat job error!', error: e});
     });
 });
 
