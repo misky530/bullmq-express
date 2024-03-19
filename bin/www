@@ -26,6 +26,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 
+// 初始化系统
 InitializeApp.initialize().then(() => {
     console.log('InitializeApp.initialize() success.');
 
