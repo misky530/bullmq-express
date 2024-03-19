@@ -2,6 +2,7 @@
 import {Constants} from '../config/Constans';
 import {createWorker} from '../utils/WorkerUtil';
 import {RedisClient} from "../utils/RedisClient";
+import {Db} from "../td/db";
 
 export class InitializeApp {
     // 创建一个 Set 来存储暂停的作业 ID
@@ -22,6 +23,21 @@ export class InitializeApp {
 
         //create system worker
         await this.createSystemWorker();
+
+        //load all tasks
+        await this.loadAllTasks();
+    }
+
+    // 初始化加载所有task
+    private static async loadAllTasks(): Promise<void> {
+
+        // 从数据库加载所有任务
+        const tasks = await Db.getAllTask();
+        if (tasks && tasks.length > 0) {
+            console.log('tasks:', tasks);
+        }
+
+
     }
 
 

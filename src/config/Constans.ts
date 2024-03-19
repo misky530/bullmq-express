@@ -6,6 +6,19 @@ export namespace Constants {
     // export const MY_CONSTANT = 'some-value';
     // export const ANOTHER_CONSTANT = 123;
 
+    export namespace System {
+        export const NAME: string = "mtim-task-scheduler";
+        export const VERSION: string = "1.0.0";
+
+        export const SYSTEM_PATH: string = "D:\\data\\mtim"
+
+        export const DB_NAME: string = "mtim.db"
+        export const DB_PATH: string = `${SYSTEM_PATH}\\db`
+        export const LOG_PATH: string = `${SYSTEM_PATH}\\log`
+
+        export const TASK_PATH: string = `${SYSTEM_PATH}\\task`
+    }
+
     export namespace Queue {
         export const SYSTEM = 'queue-system';
         export const SYSTEM_HOUSEKEEPER = 'housekeeper';
