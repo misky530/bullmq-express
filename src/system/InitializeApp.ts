@@ -83,6 +83,8 @@ export class InitializeApp {
 
             await this.delay(1000);
 
+            console.log('job name:', job.name, 'job data:', job.data);
+
 
         });
     }

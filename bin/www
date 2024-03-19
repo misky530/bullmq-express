@@ -10,6 +10,7 @@ var http = require('http');
 
 const {InitializeApp} = require('../src/system/InitializeApp');
 const {RedisClient} = require('../src/utils/RedisClient');
+const {Db} = require('../src/td/db');
 
 
 /**
@@ -57,6 +58,9 @@ const gracefulShutdown = () => {
                 console.log('redis release failed,e:', e)
             }
         )
+
+        Db.close();
+
 
     } catch (error) {
         console.error('Error during queue shutdown', error);

@@ -56,4 +56,10 @@ export class SqliteHelper {
         this.getInstance();
         SqliteHelper.db.prepare(sql).run(params);
     }
+
+    // release
+    public static close(): void {
+        this.getInstance();
+        SqliteHelper.db.close()
+    }
 }
