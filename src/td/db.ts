@@ -25,6 +25,16 @@ export class Db {
                     const taskId = task.id;
                     const matchFiles = files.filter(file => file.indexOf(taskId) > -1);
                     console.log('matchFiles:', matchFiles);
+
+                    if (matchFiles && matchFiles.length > 0) {
+                        //load task
+                        const file = matchFiles[0];
+                        const filePath = `${Constants.System.TASK_PATH}\\${file}`;
+                        const fileContent = await FileUtil.readFileContent(filePath);
+                        console.log('fileContent:', fileContent);
+                        const result = eval(fileContent);
+                        console.log('result:', result);
+                    }
                 }
             }
 
