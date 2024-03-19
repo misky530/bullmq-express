@@ -25,19 +25,7 @@ export class InitializeApp {
         await this.createSystemWorker();
 
         //load all tasks
-        await this.loadAllTasks();
-    }
-
-    // 初始化加载所有task
-    private static async loadAllTasks(): Promise<void> {
-
-        // 从数据库加载所有任务
-        const tasks = await Db.getAllTask();
-        if (tasks && tasks.length > 0) {
-            console.log('tasks:', tasks);
-        }
-
-
+        await Db.initialize();
     }
 
 

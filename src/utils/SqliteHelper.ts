@@ -11,7 +11,9 @@ const options: Database.Options = {
 
 // import Database from 'better-sqlite3';
 // const db = new Database('foobar.db', options);
-
+interface Row {
+    [key: string]: any;
+}
 
 export class SqliteHelper {
     private static instance: SqliteHelper;
@@ -27,15 +29,27 @@ export class SqliteHelper {
             SqliteHelper.instance = new SqliteHelper();
             SqliteHelper.db = new Database(`${Constants.System.DB_PATH}\\${Constants.System.DB_NAME}`, options);
             SqliteHelper.db.pragma('journal_mode = WAL');
+            // SqliteHelper.db.function('isInt', {safeIntegers: true}, (value: any) => {
+            //     return String(typeof value === 'bigint');
+            // });
         }
         return SqliteHelper.instance;
     }
 
-    public static executeQuery(sql: string, params: any[]): Promise<any[]> {
+    public static executeQuery(sql: string, params: any[]): Row[] {
         // const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
         this.getInstance();
         const db = SqliteHelper.db;
-        return db.prepare(sql).all(params);
+        let result: Row[];
+
+        const stmt = db.prepare(sql);
+        stmt.safeIntegers(true);
+
+        result = stmt.all(params);
+
+        console.log('result:', result);
+
+        return result;
     }
 
     public static async executeNonQuery(sql: string, params: any[]): Promise<void> {

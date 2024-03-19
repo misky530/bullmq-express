@@ -14,5 +14,18 @@ export class FileUtil {
             })
         );
     }
+
+    // get file list in directory
+    public static async getFileListInDirectory(directory: string): Promise<string[]> {
+        return new Promise<string[]>((resolve, reject) => {
+            fs.readdir(directory, (err, files) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(files);
+            });
+        });
+    }
 }
 
