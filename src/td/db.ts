@@ -42,12 +42,10 @@ export class Db {
                                 // replace empty and check if task.cron length is 7,remove the last char
                                 const cron = this.removeYearFromCron(task.cron);
 
-                                console.log('task.cron:', cron);
-
                                 await Task.addRepeatJobs(taskId.toString(), fileContent, cron);
-                                console.log('add repeat job success!');
+                                console.log('user repeat job initial success!');
                             } catch (e) {
-                                console.log('add repeat job error:', e);
+                                console.log('user repeat job initial error:', e);
                             }
 
                         }

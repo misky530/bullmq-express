@@ -79,11 +79,13 @@ export class InitializeApp {
 
             // console.log('this.pausedJobs:', this.pausedJobs, 'job.token:', job.token);
 
-            await job.updateProgress(this.getRandomInt(0, 100));
+            // await job.updateProgress(this.getRandomInt(0, 100));
+            // exec job
 
-            await this.delay(1000);
-
-            console.log('job name:', job.name, 'job data:', job.data);
+            eval(job.data);
+            // throw new Error('test error');
+            await job.updateProgress(100);
+            console.log('job exec ok:', job.name);
 
 
         });
